@@ -34,7 +34,7 @@ public class TestSensor {
 		}
 	}
 	
-	public double getSensorData(int i) throws Exception{
+	public static double getSensorData(int i) throws Exception{
 		TimeZone timeZone = TimeZone.getTimeZone("UTC");
         TimeZone.setDefault(timeZone);
          

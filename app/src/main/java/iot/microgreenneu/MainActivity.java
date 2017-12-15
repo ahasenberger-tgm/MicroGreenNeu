@@ -19,8 +19,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import junit.framework.Test;
 
+public class MainActivity extends AppCompatActivity {
+    TestSensor sensor;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.sensor = new TestSensor();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,10 +118,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            int [] hallo = {10,20,30,40,50,60};
+            TestSensor sen = new TestSensor();
+            String [] ausgabe = {"Feuchtigkeit im Boden","Lufttemperatur","Bodentemperatur","Luftfeutigkeit","Erfolge","SocialMedia"};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, hallo[getArguments().getInt(ARG_SECTION_NUMBER)-1]));
+            try {
+
+                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(1.0));/*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(0)*/
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return rootView;
         }
     }
