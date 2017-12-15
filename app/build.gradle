@@ -19,6 +19,12 @@ android {
     }
 }
 
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -27,5 +33,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.facebook.android:facebook-share:[4,5)'
     testCompile 'junit:junit:4.12'
 }
