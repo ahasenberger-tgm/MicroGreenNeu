@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             try {
 
-                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(1.0));/*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(0)*/
+                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(sen.getSensorData(0)));/*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 textView.setTextSize(40);
             } catch (Exception e) {
                 e.printStackTrace();
