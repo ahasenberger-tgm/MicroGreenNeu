@@ -52,10 +52,11 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="60dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/com_facebook_button_icon_white" />
 
 </android.support.design.widget.CoordinatorLayout>
