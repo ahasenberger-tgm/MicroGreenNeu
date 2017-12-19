@@ -27,5 +27,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.facebook.android:facebook-share:[4,5)'
     testCompile 'junit:junit:4.12'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
 }
