@@ -1,105 +1,74 @@
 package iot.microgreenneu;
- 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.TimeZone;
- 
 import com.google.gson.Gson;
- 
+
 public class TestSensor {
-	
-	class ValuePair{
-		
-		public ValuePair(double v1, double v2) {
-			this.val1 = v1;
-			this.val2 = v2;
-		}
-		
-		double val1;
-		double val2;
-		
-		public void setVal(double v1, double v2) {
-			this.val1 = v1;
-			this.val2 = v2;
-		}
-		
-		public double getVal1() {
-			return this.val1;
-		}
-		
-		public double getVal2() {
-			return this.val2;
-		}
-	}
-	
-	public double getSensorData(int i) throws Exception{
-		TimeZone timeZone = TimeZone.getTimeZone("UTC");
-        TimeZone.setDefault(timeZone);
-         
-        DateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
-        sdfDate.setTimeZone(TimeZone.getTimeZone("Europe/Vienna"));;
-        Gson gson = new Gson();
-        
-        String content = new Scanner(new URL("http://62.178.0.55:4567/sensor/" + i)
-                .openStream(), "UTF-8")
-                .useDelimiter("\\A").next();
-        
-        switch (i) {
-        case 0:
-        case 1: 
-            DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
-            return ds1820.getTemperature();
-            
-            case 2:
-            DHT22ext dht22 = gson.fromJson(content, DHT22ext.class);
-            return dht22.getHumidity();
-        case 3:
-            ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
-            return chirp.getMoisture();
+
+    public static double evalData(int sensor, double val) {
+
+        switch (sensor) {
+
+            case 0:
+            case 1: return val/30;  //>0, 1 = 30 Grad C, 0.5 = 15 Grad C
+            case 2: return val/100; //Zwischen 0 und 1, 1 = feucht, 0 = trocken
+            case 3: return val/400; //>0, ~1 = feuchte erde
+            default:return -1;
         }
-        return 0;
-	}
-	
-    static public void main(String[] args) throws Exception {
-         
+    }
+
+    //i = 0 -> Bodentemperatur
+    //i = 1 -> Lufttemperatur
+    //i = 2 -> Luftfeuchtigkeit
+    //i = 3 -> Bodenfeuchte
+    public static double getSensorData(int i) throws Exception{
+
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         TimeZone.setDefault(timeZone);
-         
+
         DateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
         sdfDate.setTimeZone(TimeZone.getTimeZone("Europe/Vienna"));;
         Gson gson = new Gson();
-        for (int i = 0; i < 4; ++i) {
-            String content = new Scanner(new URL("http://62.178.0.55:4567/sensor/" + i)
-                    .openStream(), "UTF-8")
-                    .useDelimiter("\\A").next();
-            switch (i) {
+
+        /*String content = new Scanner(new URL("http://62.178.0.55:4567/sensor/" + i)
+                .openStream(), "UTF-8")
+                .useDelimiter("\\A").next();*/
+
+        URL url = new URL("http://62.178.0.55:4567/sensor/"+i);
+        Scanner s = new Scanner(url.openStream(), "UTF-8");
+        String content  = s.useDelimiter("\\A").next();
+
+        switch (i) {
             case 0:
-            case 1: 
+            case 1:
                 DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
-                String info;
-                if(i == 0) {
-                    info = "Soil temperature: ";
-                } else {
-                    info = "Case temperature: ";
-                }
-                System.out.println(sdfDate.format(ds1820.getDate()) + " - " +info 
-                        + ds1820.getTemperature() +"�C");
-                break;
+
+                //temperatur
+                return ds1820.getTemperature();
+
             case 2:
                 DHT22ext dht22 = gson.fromJson(content, DHT22ext.class);
-                System.out.println(sdfDate.format(dht22.getDate()) + " - " + "Air temperature: " + 
-                        dht22.getTemperature() +"�C / Air humidity: " + dht22.getHumidity() + "%");
-                break;
+
+                //luftfeuchtigkeit
+                return dht22.getHumidity();
             case 3:
                 ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
-                System.out.println(sdfDate.format(chirp.getDate()) + " - Soil moisture: " + 
-                chirp.getMoisture() + " / Soil temperature: " + chirp.getTemperature() + 
-                "�C /Light: " + chirp.getLight()  ); 
-                break;
-            }
+
+                //bodenfeuchtigkeit
+                return chirp.getMoisture();
         }
- 
+        return 0;
     }
+	
+    /*static public void main(String[] args) throws Exception {
+    	System.out.println("Lufttemperatur: "+TestSensor.getSensorData(0));
+    	System.out.println("Evaluierter Wert: "+TestSensor.evalData(0, TestSensor.getSensorData(0)));
+    }*/
 }
