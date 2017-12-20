@@ -1,5 +1,7 @@
 package iot.microgreenneu;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,8 @@ import android.view.ViewGroup;
 
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
 import android.widget.TextView;
@@ -65,9 +69,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("click","clicked");
-                ShareLinkContent content = new ShareLinkContent.Builder()
+                /*ShareLinkContent content = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse("https://stackoverflow.com/questions/16780294/how-to-print-to-the-console-in-android-studio"))
+                        .build();*/
+                Bitmap image = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+                Log.d("Pic", "Picture");
+                SharePhoto photo = new SharePhoto.Builder()
+                        .setBitmap(image)
                         .build();
+                SharePhotoContent content = new SharePhotoContent.Builder()
+                        .addPhoto(photo)
+                        .build();
+                shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
                 shareDialog.show(content);
                 Log.d("content","Content: "+content);
 
