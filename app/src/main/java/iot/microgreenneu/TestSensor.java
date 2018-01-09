@@ -41,13 +41,15 @@ public class TestSensor {
                 .openStream(), "UTF-8")
                 .useDelimiter("\\A").next();*/
 
-        URL url = new URL("http://62.178.0.55:4567/sensor/"+i);
-        Scanner s = new Scanner(url.openStream(), "UTF-8");
-        String content  = s.useDelimiter("\\A").next();
+        //URL url = new URL("http://62.178.0.55:4567/sensor/"+i);
+        //Scanner s = new Scanner(url.openStream(), "UTF-8");
+        //String content  = s.useDelimiter("\\A").next();
+        String content = "";
 
         switch (i) {
             case 0:
             case 1:
+                content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":21.875,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
                 DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
 
                 //temperatur
@@ -59,6 +61,7 @@ public class TestSensor {
                 //luftfeuchtigkeit
                 return dht22.getHumidity();
             case 3:
+                content = "{\"type\":\"CHIRP\",\"id\":\"1\",\"moisture\":\"365\",\"temperature\":\"21.9\",\"light\":\"41463\",\"date\":\"Nov 27, 2017 6:52:50 AM\"}";
                 ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
 
                 //bodenfeuchtigkeit
@@ -66,9 +69,11 @@ public class TestSensor {
         }
         return 0;
     }
-	
-    /*static public void main(String[] args) throws Exception {
-    	System.out.println("Lufttemperatur: "+TestSensor.getSensorData(0));
-    	System.out.println("Evaluierter Wert: "+TestSensor.evalData(0, TestSensor.getSensorData(0)));
-    }*/
+
+    /*
+    static public void main(String[] args) throws Exception {
+        System.out.println("Lufttemperatur: "+TestSensor.getSensorData(3));
+        System.out.println("Evaluierter Wert: "+TestSensor.evalData(0, TestSensor.getSensorData(3)));
+    }
+    */
 }
