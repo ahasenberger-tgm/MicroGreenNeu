@@ -1,10 +1,13 @@
 package iot.microgreenneu;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
                 shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
                 shareDialog.show(content);
+                sendNotification();
                 Log.d("content","Content: "+content);
 
             }
@@ -137,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
             return fragment;
         }
 
+
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -155,6 +161,17 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
 
+    }
+
+    public void sendNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(001, mBuilder.build());
     }
 
     /**
