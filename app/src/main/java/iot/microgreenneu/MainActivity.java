@@ -128,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            String [] ausgabe = {"Feuchtigkeit im Boden","Lufttemperatur","Bodentemperatur","Luftfeutigkeit","Erfolge","SocialMedia"};
+            String [] ausgabe = {"Feuchtigkeit im Boden","Lufttemperatur","Bodentemperatur","Luftfeutigkeit","Erfolge"/*,"SocialMedia"*/};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 
             try {
 
-                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(0.0));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
+                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 textView.setTextSize(40);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 6;
+            return 5;
         }
 
         @Override
