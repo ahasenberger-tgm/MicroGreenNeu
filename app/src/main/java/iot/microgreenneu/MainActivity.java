@@ -166,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
     public void sendNotification() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setSmallIcon(R.mipmap.flower_bronze_hdpi)
+                        .setContentTitle("MicroGreen")
+                        .setContentText("Die Feuchtigkeit im Boden ist zu niedrig!");
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(001, mBuilder.build());
