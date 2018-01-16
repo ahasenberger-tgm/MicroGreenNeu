@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
     TestSensor sensor;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
-    int punktestand;
+    static int punktestand;
     String notificationText;
+    static MainActivity globalInstance;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         punktestand = 0;
         notificationText = "";
+        globalInstance = new MainActivity();
+
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
+                if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4) textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Integer.toString(punktestand));
                 textView.setTextSize(40);
                 String uri = "";
                 if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {
@@ -185,7 +190,13 @@ public class MainActivity extends AppCompatActivity {
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){
                     uri = "@mipmap/flower_silver_xxxhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
-                    uri = "@mipmap/flower_gold_xxxhdpi";
+                    if(punktestand==0) {
+                        uri = "@mipmap/flower_gold_xxxhdpi";
+                    }else if(punktestand==1){
+                        uri = "@mipmap/flower_silver_xxxhdpi";
+                    }else if(punktestand>=2){
+                        uri = "@mipmap/flower_gold_xxxhdpi";
+                    }
                 }
                 int imageR = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                 Drawable res = getResources().getDrawable(imageR);
@@ -213,26 +224,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkdata(){
-        double bodenfeuchtigkeit = 0;
+        double bodenfeuchtigkeit = 1;
+        //try{bodenfeuchtigkeit = TestSensor.evalData(3,TestSensor.getSensorData(3));}catch (Exception e){}
         double luftfeuchtigkeit = 0;
         double lufttemperatur = 0;
-        Boolean istbodentrocken = false;
+        Boolean istbodenzutrocken = false;
+        Boolean istbodenzunass = false;
 
         if(bodenfeuchtigkeit < 0.3){
-            notificationText = "Die Erde ist zu trocken. Gieße Deine Pflanze.";
-            istbodentrocken = true;
+            notificationText = "Die Erde ist zu trocken. Gieße deine Pflanze.";
+            istbodenzutrocken = true;
             sendNotification();
+
             //notification aufrufen, icon in der tabbar ändern
         }
 
-        if (!istbodentrocken){
+        if (istbodenzutrocken||istbodenzunass && bodenfeuchtigkeit > 0.3&& bodenfeuchtigkeit < 0.6){// Beides damit man nur Punkte bekommt wenn man die Pflanze gießt wenn es vorher zu wenig war
             if(bodenfeuchtigkeit >= 0.3){
-                istbodentrocken = false;
+                istbodenzutrocken = false;
+                istbodenzunass = false;
                 notificationText = "Die Pflanze wurde gegossen.";
                 punktestand ++;
                 sendNotification();
+                bildAendern();
                 //notification aufrufen, icon in der tabbar ändern
             }
+        }
+        if(bodenfeuchtigkeit > 0.6) {
+            notificationText = "Die Erde ist zu nass. Warte mit dem weiteren Gießen.";
+            istbodenzunass = true;
+            sendNotification();
         }
     }
 
