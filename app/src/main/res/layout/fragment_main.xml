@@ -13,17 +13,19 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="43dp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/section_label"
-        android:layout_marginEnd="83dp"
-        android:layout_marginTop="181dp"
-        android:src="@mipmap/thermometer_mdpi" />
+        android:layout_width="320dp"
+        android:layout_height="350dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="75dp"
+        android:src="@mipmap/flower_gold_xxxhdpi" />
 
 
 </RelativeLayout>

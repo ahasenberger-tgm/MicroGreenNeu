@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,12 +31,16 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TestSensor sensor;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+    int punktestand;
+    String notificationText;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_main);
+        punktestand = 0;
+        notificationText = "";
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -85,11 +93,22 @@ public class MainActivity extends AppCompatActivity {
                         .build();
                 shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
                 shareDialog.show(content);
-                sendNotification();
+                //bildAendern();
+                //sendNotification();
                 Log.d("content","Content: "+content);
 
             }
         });
+
+        FloatingActionButton share2 = (FloatingActionButton) findViewById(R.id.share2);
+        share2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkdata();
+
+            }
+        });
+
 
     }
 
@@ -150,28 +169,88 @@ public class MainActivity extends AppCompatActivity {
             String [] ausgabe = {"Feuchtigkeit im Boden","Lufttemperatur","Bodentemperatur","Luftfeutigkeit","Erfolge"/*,"SocialMedia"*/};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            ImageView image = (ImageView) rootView.findViewById(R.id.imageView);
 
             try {
 
                 textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 textView.setTextSize(40);
+                String uri = "";
+                if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {
+                    uri = "@mipmap/flower_bronze_xxxhdpi";
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){
+                    uri = "@mipmap/flower_silver_xxxhdpi";
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){
+                    uri = "@mipmap/flower_gold_xxxhdpi";
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){
+                    uri = "@mipmap/flower_silver_xxxhdpi";
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
+                    uri = "@mipmap/flower_gold_xxxhdpi";
+                }
+                int imageR = getResources().getIdentifier(uri, null, getActivity().getPackageName());
+                Drawable res = getResources().getDrawable(imageR);
+                image.setImageDrawable(res);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return rootView;
         }
 
     }
+
 
     public void sendNotification() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.flower_bronze_hdpi)
                         .setContentTitle("MicroGreen")
-                        .setContentText("Die Feuchtigkeit im Boden ist zu niedrig!");
+                        .setContentText(notificationText);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(001, mBuilder.build());
+    }
+
+    public void checkdata(){
+        double bodenfeuchtigkeit = 0;
+        double luftfeuchtigkeit = 0;
+        double lufttemperatur = 0;
+        Boolean istbodentrocken = false;
+
+        if(bodenfeuchtigkeit < 0.3){
+            notificationText = "Die Erde ist zu trocken. Gieße Deine Pflanze.";
+            istbodentrocken = true;
+            sendNotification();
+            //notification aufrufen, icon in der tabbar ändern
+        }
+
+        if (!istbodentrocken){
+            if(bodenfeuchtigkeit >= 0.3){
+                istbodentrocken = false;
+                notificationText = "Die Pflanze wurde gegossen.";
+                punktestand ++;
+                sendNotification();
+                //notification aufrufen, icon in der tabbar ändern
+            }
+        }
+    }
+
+
+    public void bildAendern(){
+        ImageView image = (ImageView) findViewById(R.id.media_image);
+        //image.setImageBitmap(BitmapFactory.decodeFile("@mipmap/flower_silver_xxxhdpi"));
+        String uri = "";
+        if (punktestand == 0) {
+            uri = "@mipmap/flower_bronze_xxxhdpi";
+        }else if(punktestand == 1){
+            uri = "@mipmap/flower_silver_xxxhdpi";
+        }else if(punktestand>=2){
+            uri = "@mipmap/flower_gold_xxxhdpi";
+        }
+        int imageR = getResources().getIdentifier(uri, null, getPackageName());
+        Drawable res = getResources().getDrawable(imageR);
+        image.setImageDrawable(res);
     }
 
     /**
