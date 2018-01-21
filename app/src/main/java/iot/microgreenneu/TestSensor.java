@@ -69,6 +69,21 @@ public class TestSensor {
         }
         return 0;
     }
+    
+    private static double rand(int weight)
+	{
+	    return 0.137*weight;
+	}
+	
+	private static double randpercent(int weight)
+	{
+	    return 13.7*weight;
+	}
+	
+	private static double randoriginal(int weight)
+	{
+	    return 300+36.7*weight;
+	}
 
     /*
     static public void main(String[] args) throws Exception {
