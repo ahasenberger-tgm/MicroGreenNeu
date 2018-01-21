@@ -72,6 +72,6 @@
         app:backgroundTint="@color/cardview_light_background"
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="right|top"
-        app:srcCompat="@mipmap/refresh_xxxhdpi" />
+        />
 
 </android.support.design.widget.CoordinatorLayout>

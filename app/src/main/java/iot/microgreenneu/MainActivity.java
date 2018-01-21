@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            String [] ausgabe = {"Feuchtigkeit im Boden","Lufttemperatur","Bodentemperatur","Luftfeutigkeit","Erfolge"/*,"SocialMedia"*/};
+            String [] ausgabe = {"Feuchtigkeit im Boden(%)","Temperatur in der Luft(°C)","Bodentemperatur(°C)","Luftfeutigkeit(%)","Erfolge"/*,"SocialMedia"*/};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView image = (ImageView) rootView.findViewById(R.id.imageView);
