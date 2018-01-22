@@ -43,19 +43,22 @@
                 android:textColor="#ffffff"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/share2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="5dp"
+                android:adjustViewBounds="true"
+                app:backgroundTint="@color/cardview_light_background"
+                app:srcCompat="@mipmap/refresh_xhdpi" />
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/share2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="600dp"
-        android:layout_marginLeft="330dp"
-        app:backgroundTint="@color/cardview_light_background"
-        app:layout_anchor="@+id/container"
-        app:srcCompat="@mipmap/refresh_xhdpi" />
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
