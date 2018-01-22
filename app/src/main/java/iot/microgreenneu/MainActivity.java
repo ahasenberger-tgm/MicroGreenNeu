@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     static int seite;
     String notificationText;
     static MainActivity globalInstance;
+    static int counter;
+    Boolean istbodenzutrocken;
+    Boolean istbodenzunass;
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -65,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_main);
         seite = 0;
+        counter = 0;
+        istbodenzunass = false;
+        istbodenzutrocken = false;
         punktestand = 0;
         notificationText = "";
         globalInstance = new MainActivity();
@@ -109,8 +116,14 @@ public class MainActivity extends AppCompatActivity {
         share2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (counter == 5)
+                    counter = 0;
+                else counter = 5;
                 checkdata();
+
+
                 //richtigeBilder();
+
 
             }
         });
@@ -180,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 seite = getArguments().getInt(ARG_SECTION_NUMBER)-1;
-                textView.setText(ausgabe[seite]+": "+Double.toString(TestSensor.getSensorData(seite)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
+                textView.setText(ausgabe[seite]+": "+Double.toString(TestSensor.getSensorData(seite, counter)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 if(seite == 4) textView.setText(ausgabe[seite]+": "+Integer.toString(punktestand));
                 textView.setTextSize(40);
                 String uri = "";
@@ -228,14 +241,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkdata(){
+
         double bodenfeuchtigkeit = 0;
-        //try{bodenfeuchtigkeit = TestSensor.evalData(3,TestSensor.getSensorData(3));}catch (Exception e){}
+        try{bodenfeuchtigkeit = TestSensor.getSensorData(0,counter);}catch (Exception e){}
         double luftfeuchtigkeit = 0;
         double lufttemperatur = 0;
-        Boolean istbodenzutrocken = false;
-        Boolean istbodenzunass = false;
 
-        if(bodenfeuchtigkeit < 0.3){
+        if(bodenfeuchtigkeit < 30){
             notificationText = "Die Erde ist zu trocken. Gieße deine Pflanze.";
             istbodenzutrocken = true;
             sendNotification();
@@ -243,18 +255,16 @@ public class MainActivity extends AppCompatActivity {
             //notification aufrufen, icon in der tabbar ändern
         }
 
-        if (istbodenzutrocken||istbodenzunass && bodenfeuchtigkeit > 0.3&& bodenfeuchtigkeit < 0.6){// Beides damit man nur Punkte bekommt wenn man die Pflanze gießt wenn es vorher zu wenig war
-            if(bodenfeuchtigkeit >= 0.3){
-                istbodenzutrocken = false;
-                istbodenzunass = false;
-                notificationText = "Die Pflanze wurde gegossen.";
-                punktestand ++;
-                sendNotification();
-                bildAendern();
-                //notification aufrufen, icon in der tabbar ändern
-            }
+        if ((istbodenzutrocken||istbodenzunass) && bodenfeuchtigkeit > 30 && bodenfeuchtigkeit < 90){// Beides damit man nur Punkte bekommt wenn man die Pflanze gießt wenn es vorher zu wenig war
+            istbodenzutrocken = false;
+            istbodenzunass = false;
+            notificationText = "Die Pflanze wurde gegossen.";
+            punktestand ++;
+            sendNotification();
+            bildAendern();
+            //notification aufrufen, icon in der tabbar ändern
         }
-        if(bodenfeuchtigkeit > 0.6) {
+        if(bodenfeuchtigkeit > 90) {
             notificationText = "Die Erde ist zu nass. Warte mit dem weiteren Gießen.";
             istbodenzunass = true;
             sendNotification();

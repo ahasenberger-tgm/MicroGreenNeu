@@ -28,13 +28,13 @@ public class TestSensor {
     //i = 1 -> Lufttemperatur
     //i = 2 -> Luftfeuchtigkeit
     //i = 3 -> Bodenfeuchte
-    public static double getSensorData(int i) throws Exception{
+    public static double getSensorData(int i, int counter) throws Exception{
 
-        TimeZone timeZone = TimeZone.getTimeZone("UTC");
-        TimeZone.setDefault(timeZone);
+        //TimeZone timeZone = TimeZone.getTimeZone("UTC");
+        //TimeZone.setDefault(timeZone);
 
-        DateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
-        sdfDate.setTimeZone(TimeZone.getTimeZone("Europe/Vienna"));;
+        //DateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");
+        //sdfDate.setTimeZone(TimeZone.getTimeZone("Europe/Vienna"));;
         Gson gson = new Gson();
 
         /*String content = new Scanner(new URL("http://62.178.0.55:4567/sensor/" + i)
@@ -48,26 +48,39 @@ public class TestSensor {
 
         switch (i) {
             case 0:
+                content = "{\"type\":\"CHIRP\",\"id\":\"1\",\"moisture\":\"365\",\"temperature\":\"21.9\",\"light\":\"41463\",\"date\":\"Nov 27, 2017 6:52:50 AM\"}";
+                ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
+
+                //bodenfeuchtigkeit
+
+                return chirp.getMoisture()/5 - 9.25*counter;
+
             case 1:
+                content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":20.75,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
+                DS1820ext ds1821 = gson.fromJson(content, DS1820ext.class);
+
+                //temperatur
+                return ds1821.getTemperature();
+            case 2:
                 content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":21.875,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
                 DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
 
                 //temperatur
                 return ds1820.getTemperature();
 
-            case 2:
+            case 3:
                 DHT22ext dht22 = gson.fromJson(content, DHT22ext.class);
 
                 //luftfeuchtigkeit
-                return dht22.getHumidity();
-            case 3:
-                content = "{\"type\":\"CHIRP\",\"id\":\"1\",\"moisture\":\"365\",\"temperature\":\"21.9\",\"light\":\"41463\",\"date\":\"Nov 27, 2017 6:52:50 AM\"}";
-                ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
+                //return dht22.getHumidity();
+                return 41.3;
 
-                //bodenfeuchtigkeit
-                return chirp.getMoisture();
         }
         return 0;
+    }
+
+    public static double test(){
+        return 26.75;
     }
     
     private static double rand(int weight)
