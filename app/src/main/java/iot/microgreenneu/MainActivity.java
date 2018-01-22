@@ -191,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
                     uri = "@mipmap/flower_silver_xxxhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
                     if(punktestand==0) {
-                        uri = "@mipmap/flower_gold_xxxhdpi";
+                        uri = "@mipmap/bronze_erfolg_xxxhdpi";
                     }else if(punktestand==1){
-                        uri = "@mipmap/flower_silver_xxxhdpi";
+                        uri = "@mipmap/silber_erfolg_xxxhdpi";
                     }else if(punktestand>=2){
-                        uri = "@mipmap/flower_gold_xxxhdpi";
+                        uri = "@mipmap/gold_erfolg_xxxhdpi";
                     }
                 }
                 int imageR = getResources().getIdentifier(uri, null, getActivity().getPackageName());
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkdata(){
-        double bodenfeuchtigkeit = 1;
+        double bodenfeuchtigkeit = 0;
         //try{bodenfeuchtigkeit = TestSensor.evalData(3,TestSensor.getSensorData(3));}catch (Exception e){}
         double luftfeuchtigkeit = 0;
         double lufttemperatur = 0;
