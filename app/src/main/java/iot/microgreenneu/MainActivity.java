@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     static int punktestand;
+    static int seite;
     String notificationText;
     static MainActivity globalInstance;
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_main);
+        seite = 0;
         punktestand = 0;
         notificationText = "";
         globalInstance = new MainActivity();
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkdata();
+                //richtigeBilder();
 
             }
         });
@@ -170,34 +173,35 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            String [] ausgabe = {"Feuchtigkeit im Boden(%)","Temperatur in der Luft(°C)","Bodentemperatur(°C)","Luftfeutigkeit(%)","Erfolge"/*,"SocialMedia"*/};
+            String [] ausgabe = {"Feuchtigkeit im Boden(%)","Temperatur in der Luft(°C)","Bodentemperatur(°C)","Luftfeuchtigkeit(%)","Erfolge"/*,"SocialMedia"*/};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView image = (ImageView) rootView.findViewById(R.id.imageView);
 
             try {
-
-                textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Double.toString(TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
-                if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4) textView.setText(ausgabe[getArguments().getInt(ARG_SECTION_NUMBER)-1]+": "+Integer.toString(punktestand));
+                seite = getArguments().getInt(ARG_SECTION_NUMBER)-1;
+                textView.setText(ausgabe[seite]+": "+Double.toString(TestSensor.getSensorData(seite)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
+                if(seite == 4) textView.setText(ausgabe[seite]+": "+Integer.toString(punktestand));
                 textView.setTextSize(40);
                 String uri = "";
                 if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {
-                    uri = "@mipmap/flower_bronze_xxxhdpi";
+                    uri = "@mipmap/flower_gold_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){
-                    uri = "@mipmap/flower_silver_xxxhdpi";
+                    uri = "@mipmap/thermometer_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){
-                    uri = "@mipmap/flower_gold_xxxhdpi";
+                    uri = "@mipmap/thermometer_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){
-                    uri = "@mipmap/flower_silver_xxxhdpi";
+                    uri = "@mipmap/flower_silver_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
                     if(punktestand==0) {
-                        uri = "@mipmap/bronze_erfolg_xxxhdpi";
+                        uri = "@mipmap/bronze_erfolg_xhdpi";
                     }else if(punktestand==1){
-                        uri = "@mipmap/silber_erfolg_xxxhdpi";
+                        uri = "@mipmap/silber_erfolg_xhdpi";
                     }else if(punktestand>=2){
-                        uri = "@mipmap/gold_erfolg_xxxhdpi";
+                        uri = "@mipmap/gold_erfolg_xhdpi";
                     }
                 }
+
                 int imageR = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                 Drawable res = getResources().getDrawable(imageR);
                 image.setImageDrawable(res);
