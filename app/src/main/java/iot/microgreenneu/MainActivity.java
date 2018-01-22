@@ -203,13 +203,13 @@ public class MainActivity extends AppCompatActivity {
                 textView.setTextSize(40);
                 String uri = "";
                 if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {
-                    uri = "@mipmap/flower_gold_xhdpi";
+                    uri = "@mipmap/doubledrop_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){
                     uri = "@mipmap/thermometer_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){
                     uri = "@mipmap/thermometer_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){
-                    uri = "@mipmap/flower_silver_xhdpi";
+                    uri = "@mipmap/doubledrop_xhdpi";
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
                     if(punktestand==0) {
                         uri = "@mipmap/bronze_erfolg_xhdpi";

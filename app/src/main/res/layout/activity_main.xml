@@ -27,6 +27,7 @@
                 android:id="@+id/media_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="new post image"
                 android:scaleType="centerCrop"
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:fadingEdge="none"
                 android:fontFamily="sans-serif-condensed"
-                android:text="  MicroGreen"
+                android:text="    MicroGreen"
                 android:textColor="#ffffff"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -74,7 +75,7 @@
         android:layout_height="60dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/com_facebook_button_background_color"
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/com_facebook_button_icon_white" />
