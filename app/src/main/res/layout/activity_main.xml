@@ -12,7 +12,6 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay"
         tools:layout_editor_absoluteY="1dp">
 
@@ -20,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#008b00"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -38,6 +37,8 @@
                 android:id="@+id/toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fadingEdge="none"
+                android:fontFamily="sans-serif-condensed"
                 android:text="  MicroGreen"
                 android:textColor="#ffffff"
                 android:textSize="30sp"
@@ -46,10 +47,22 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/share2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="600dp"
+        android:layout_marginLeft="330dp"
+        app:backgroundTint="@color/cardview_light_background"
+        app:layout_anchor="@+id/container"
+        app:srcCompat="@mipmap/refresh_xhdpi" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="-20dp"
+        android:layout_marginTop="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
@@ -62,17 +75,5 @@
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/com_facebook_button_icon_white" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/share2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/cardview_light_background"
-        app:layout_anchor="@+id/container"
-        app:layout_anchorGravity="right|top"
-        app:srcCompat="@mipmap/refresh_xhdpi"
-        />
 
 </android.support.design.widget.CoordinatorLayout>

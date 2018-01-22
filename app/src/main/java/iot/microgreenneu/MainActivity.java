@@ -1,5 +1,6 @@
 package iot.microgreenneu;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,6 +32,7 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_main);
@@ -75,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         punktestand = 0;
         notificationText = "";
         globalInstance = new MainActivity();
+
+
 
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            String [] ausgabe = {"Feuchtigkeit im Boden(%)","Temperatur in der Luft(°C)","Bodentemperatur(°C)","Luftfeuchtigkeit(%)","Erfolge"/*,"SocialMedia"*/};
+            String [] ausgabe = {"Feuchtigkeit im Boden(%)","Lufttemperatur(°C)","Bodentemperatur(°C)","Luftfeuchtigkeit(%)","Erfolge"/*,"SocialMedia"*/};
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView image = (ImageView) rootView.findViewById(R.id.imageView);
