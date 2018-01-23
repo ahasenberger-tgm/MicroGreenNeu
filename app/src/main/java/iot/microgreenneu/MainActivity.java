@@ -196,21 +196,50 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView image = (ImageView) rootView.findViewById(R.id.imageView);
 
-            try {
+            try{
                 seite = getArguments().getInt(ARG_SECTION_NUMBER)-1;
                 textView.setText(ausgabe[seite]+": "+Double.toString(TestSensor.getSensorData(seite, counter)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 if(seite == 4) textView.setText(ausgabe[seite]+": "+Integer.toString(punktestand));
                 textView.setTextSize(40);
                 String uri = "";
-                if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {
-                    uri = "@mipmap/doubledrop_xhdpi";
-                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){
-                    uri = "@mipmap/thermometer_xhdpi";
-                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){
-                    uri = "@mipmap/thermometer_xhdpi";
-                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){
-                    uri = "@mipmap/doubledrop_xhdpi";
-                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){
+                if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {//Feuchtigkeit im Boden
+                    if(TestSensor.getSensorData(0, counter)<30){
+                        uri = "@mipmap/singledrop_xhdpi";
+                    }else if (TestSensor.getSensorData(0, counter)>=30&&TestSensor.getSensorData(0, counter)<=90){
+                        uri = "@mipmap/doubledrop_xhdpi";
+                    }
+                    else if (TestSensor.getSensorData(0, counter)>90) {
+                        uri = "@mipmap/tripledrop_xhdpi";
+                    }
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){//Temp in der Luft
+                    if(TestSensor.getSensorData(1, counter)<10){
+                        uri = "@mipmap/thermometer_low_xhdpi";
+                    }else if (TestSensor.getSensorData(1, counter)>=10&&TestSensor.getSensorData(1, counter)<=30){
+                        uri = "@mipmap/thermometer_halb_xhdpi";
+                    }
+                    else if (TestSensor.getSensorData(1, counter)>30) {
+                        uri = "@mipmap/thermometer_xhdpi";
+                    }
+
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){//Bodentemp
+                    if(TestSensor.getSensorData(2, counter)<10){
+                        uri = "@mipmap/thermometer_low_xhdpi";
+                    }else if (TestSensor.getSensorData(2, counter)>=10&&TestSensor.getSensorData(2, counter)<=30){
+                        uri = "@mipmap/thermometer_halb_xhdpi";
+                    }
+                    else if (TestSensor.getSensorData(2, counter)>30) {
+                        uri = "@mipmap/thermometer_xhdpi";
+                    }
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){//Luftfeuchtigkeit
+                    if(TestSensor.getSensorData(0, counter)<30){
+                        uri = "@mipmap/singledrop_xhdpi";
+                    }else if (TestSensor.getSensorData(0, counter)>=30&&TestSensor.getSensorData(0, counter)<=90){
+                        uri = "@mipmap/doubledrop_xhdpi";
+                    }
+                    else if (TestSensor.getSensorData(0, counter)>90) {
+                        uri = "@mipmap/tripledrop_xhdpi";
+                    }
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){//Erfolge
                     if(punktestand==0) {
                         uri = "@mipmap/bronze_erfolg_xhdpi";
                     }else if(punktestand==1){
@@ -219,12 +248,11 @@ public class MainActivity extends AppCompatActivity {
                         uri = "@mipmap/gold_erfolg_xhdpi";
                     }
                 }
-
                 int imageR = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                 Drawable res = getResources().getDrawable(imageR);
                 image.setImageDrawable(res);
 
-            } catch (Exception e) {
+            }catch(Exception e){
                 e.printStackTrace();
             }
 
