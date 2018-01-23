@@ -231,12 +231,12 @@ public class MainActivity extends AppCompatActivity {
                         uri = "@mipmap/thermometer_xhdpi";
                     }
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){//Luftfeuchtigkeit
-                    if(TestSensor.getSensorData(0, counter)<30){
+                    if(TestSensor.getSensorData(3, counter)<30){
                         uri = "@mipmap/singledrop_xhdpi";
-                    }else if (TestSensor.getSensorData(0, counter)>=30&&TestSensor.getSensorData(0, counter)<=90){
+                    }else if (TestSensor.getSensorData(3, counter)>=30&&TestSensor.getSensorData(3, counter)<=90){
                         uri = "@mipmap/doubledrop_xhdpi";
                     }
-                    else if (TestSensor.getSensorData(0, counter)>90) {
+                    else if (TestSensor.getSensorData(3, counter)>90) {
                         uri = "@mipmap/tripledrop_xhdpi";
                     }
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){//Erfolge
