@@ -1,6 +1,10 @@
 package iot.microgreenneu;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,34 +50,42 @@ public class TestSensor {
         //String content  = s.useDelimiter("\\A").next();
         String content = "";
 
+        //Some url endpoint that you may have
+        String myUrl = "http://84.112.182.190:4567/sensor/"+i;
+        //String to place our result in
+        //Instantiate new instance of our class
+        MyAsyncTask getRequest = new MyAsyncTask();
+        //Perform the doInBackground method, passing in our url
+        content = getRequest.execute(myUrl).get();
+
         switch (i) {
+
             case 0:
-                content = "{\"type\":\"CHIRP\",\"id\":\"1\",\"moisture\":\"365\",\"temperature\":\"21.9\",\"light\":\"41463\",\"date\":\"Nov 27, 2017 6:52:50 AM\"}";
-                ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
+                //content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":21.875,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
+                DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
 
-                //bodenfeuchtigkeit
-
-                return chirp.getMoisture()/5 - 9.25*counter;
-
+                //temperatur
+                return ds1820.getTemperature();
             case 1:
-                content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":20.75,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
+                //content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":20.75,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
                 DS1820ext ds1821 = gson.fromJson(content, DS1820ext.class);
 
                 //temperatur
                 return ds1821.getTemperature();
             case 2:
-                content = "{\"type\":\"DS1820\",\"id\":0,\"temperature\":21.875,\"date\":\"Nov 27, 2017 6:22:40 AM\"}";
-                DS1820ext ds1820 = gson.fromJson(content, DS1820ext.class);
-
-                //temperatur
-                return ds1820.getTemperature();
-
-            case 3:
                 DHT22ext dht22 = gson.fromJson(content, DHT22ext.class);
 
                 //luftfeuchtigkeit
-                //return dht22.getHumidity();
-                return 41.3;
+                return dht22.getHumidity();
+
+
+            case 3:
+                //content = "{\"type\":\"CHIRP\",\"id\":\"1\",\"moisture\":\"365\",\"temperature\":\"21.9\",\"light\":\"41463\",\"date\":\"Nov 27, 2017 6:52:50 AM\"}";
+                ChirpExt chirp =  gson.fromJson(content, ChirpExt.class);
+
+                //bodenfeuchtigkeit
+
+                return chirp.getMoisture()/5 - 9.25*counter;
 
         }
         return 0;
