@@ -25,7 +25,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, String> {
     public static final int CONNECTION_TIMEOUT = 15000;
     @Override
     protected String doInBackground(String... params){
-        String stringUrl = "http://84.112.182.190:4567/sensor/0";
+        String stringUrl = params[0];
         String result;
         String inputLine;
         try {
