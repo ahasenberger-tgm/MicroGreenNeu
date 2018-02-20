@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         punktestand = 0;
         notificationText = "";
         globalInstance = new MainActivity();
+        sensordata = new double[4];
 
 
 
@@ -201,48 +202,48 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 seite = getArguments().getInt(ARG_SECTION_NUMBER)-1;
-                textView.setText(ausgabe[seite]+": "+Double.toString(TestSensor.getSensorData(seite, counter)));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
+                textView.setText(ausgabe[seite]+": "+Double.toString(sensordata[seite]));/*TestSensor.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)+//*sen.getSensorData(0)/*getString(R.string.section_format, (int) sen.getSensorData(getArguments().getInt(ARG_SECTION_NUMBER)-1)*/
                 if(seite == 4) textView.setText(ausgabe[seite]+": "+Integer.toString(punktestand));
                 textView.setTextSize(40);
                 String uri = "";
                 if (getArguments().getInt(ARG_SECTION_NUMBER)-1 == 0) {//Feuchtigkeit im Boden
-                    if(TestSensor.getSensorData(0, counter)<30){
+                    if(sensordata[0]<30){
                         uri = "@mipmap/singledrop_xhdpi";
-                    }else if (TestSensor.getSensorData(0, counter)>=30&&TestSensor.getSensorData(0, counter)<=90){
+                    }else if (sensordata[0]>=30&&sensordata[0]<=90){
                         uri = "@mipmap/doubledrop_xhdpi";
                     }
-                    else if (TestSensor.getSensorData(0, counter)>90) {
+                    else if (sensordata[0]>90) {
                         uri = "@mipmap/tripledrop_xhdpi";
                     }
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 1){//Temp in der Luft
-                    if(TestSensor.getSensorData(1, counter)<10){
+                    if(sensordata[1]<10){
                         uri = "@mipmap/thermometer_low_xhdpi";
-                    }else if (TestSensor.getSensorData(1, counter)>=10&&TestSensor.getSensorData(1, counter)<=30){
+                    }else if (sensordata[1]>=10&&sensordata[1]<=30){
                         uri = "@mipmap/thermometer_halb_xhdpi";
                     }
-                    else if (TestSensor.getSensorData(1, counter)>30) {
+                    else if (sensordata[1]>30) {
                         uri = "@mipmap/thermometer_xhdpi";
                     }
 
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 2){//Bodentemp
-                    if(TestSensor.getSensorData(2, counter)<10){
+                    if(sensordata[2]<10){
                         uri = "@mipmap/thermometer_low_xhdpi";
-                    }else if (TestSensor.getSensorData(2, counter)>=10&&TestSensor.getSensorData(2, counter)<=30){
+                    }else if (sensordata[2]>=10&&sensordata[2]<=30){
                         uri = "@mipmap/thermometer_halb_xhdpi";
                     }
-                    else if (TestSensor.getSensorData(2, counter)>30) {
+                    else if (sensordata[2]>30) {
                         uri = "@mipmap/thermometer_xhdpi";
                     }
                 }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 3){//Luftfeuchtigkeit
-                    if(TestSensor.getSensorData(3, counter)<30){
+                    if(sensordata[3]<30){
                         uri = "@mipmap/singledrop_xhdpi";
-                    }else if (TestSensor.getSensorData(3, counter)>=30&&TestSensor.getSensorData(3, counter)<=90){
+                    }else if (sensordata[3]>=30&&sensordata[3]<=90){
                         uri = "@mipmap/doubledrop_xhdpi";
                     }
-                    else if (TestSensor.getSensorData(3, counter)>90) {
+                    else if (sensordata[3]>90) {
                         uri = "@mipmap/tripledrop_xhdpi";
                     }
-                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){//Erfolge
+                }else if(getArguments().getInt(ARG_SECTION_NUMBER)-1 == 4){//Erfolg
                     if(punktestand==0) {
                         uri = "@mipmap/bronze_erfolg_xhdpi";
                     }else if(punktestand==1){
@@ -279,7 +280,8 @@ public class MainActivity extends AppCompatActivity {
     public void checkdata(){
 
         double bodenfeuchtigkeit = 0;
-        try{bodenfeuchtigkeit = TestSensor.getSensorData(0,counter);}catch (Exception e){}
+        bodenfeuchtigkeit = sensordata[0];
+        //try{bodenfeuchtigkeit = TestSensor.getSensorData(0,counter);}catch (Exception e){}
         double luftfeuchtigkeit = 0;
         double lufttemperatur = 0;
 

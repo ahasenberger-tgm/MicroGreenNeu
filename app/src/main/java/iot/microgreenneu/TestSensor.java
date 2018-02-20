@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -94,11 +95,16 @@ public class TestSensor {
     public static double[] getAllSensorData(){
         double[] temp = new double[4];
 
-        try {
+        try {int stellen = 2;
             temp[0] = TestSensor.getSensorData(2, 0);
             temp[1] = TestSensor.getSensorData(1, 0);
             temp[2] = TestSensor.getSensorData(0, 0);
             temp[3] = TestSensor.getSensorData(3, 0);
+
+            temp[0] = (double) ((int)temp[0] + (Math.round(Math.pow(10,stellen)*(temp[0]-(int)temp[0])))/(Math.pow(10,stellen)));
+            temp[1] = (double) ((int)temp[1] + (Math.round(Math.pow(10,stellen)*(temp[1]-(int)temp[1])))/(Math.pow(10,stellen)));
+            temp[2] = (double) ((int)temp[2] + (Math.round(Math.pow(10,stellen)*(temp[2]-(int)temp[2])))/(Math.pow(10,stellen)));
+            temp[3] = (double) ((int)temp[3] + (Math.round(Math.pow(10,stellen)*(temp[3]-(int)temp[3])))/(Math.pow(10,stellen)));
         } catch(Exception e){
             e.printStackTrace();
         }
