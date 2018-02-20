@@ -91,6 +91,21 @@ public class TestSensor {
         return 0;
     }
 
+    public static double[] getAllSensorData(){
+        double[] temp = new double[4];
+
+        try {
+            temp[0] = TestSensor.getSensorData(2, 0);
+            temp[1] = TestSensor.getSensorData(1, 0);
+            temp[2] = TestSensor.getSensorData(0, 0);
+            temp[3] = TestSensor.getSensorData(3, 0);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return temp;
+    }
+
     public static double test(){
         return 26.75;
     }

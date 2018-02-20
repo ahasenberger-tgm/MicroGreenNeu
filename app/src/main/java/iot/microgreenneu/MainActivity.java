@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     TestSensor sensor;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+    static double[] sensordata;
     static int punktestand;
     static int seite;
     String notificationText;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         punktestand = 0;
         notificationText = "";
         globalInstance = new MainActivity();
+
+
 
 
 
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 else counter = 5;
                 checkdata();
 
-
+                sensordata = TestSensor.getAllSensorData();
                 //richtigeBilder();
 
 
